@@ -1,4 +1,5 @@
 var morgan = require('morgan');
+var fs = require('fs');
 
 module.exports = function(sails) {
 
@@ -13,11 +14,13 @@ module.exports = function(sails) {
      */
     defaults: {
 
-      requestlogger: {
+      requestloggerfile: {
         // Turn morgan logging on by default in development environment
         // and off for production, using the 'dev' format
         //see: https://github.com/expressjs/morgan#predefined-formats for more formats
         format: 'dev',
+        logLocation: 'console',
+        fileLocation: 'access.log',
         inDevelopment: true,
         inProduction: false
       }
@@ -30,12 +33,18 @@ module.exports = function(sails) {
         'all /*': function addRequestLogging (req, res, next) {
           // If the hook has been deactivated, just return
           //Need to define requestlogger manually, since don't have acces to this.configKey
-          var loggerSettings = sails.config['requestlogger'];
+          var loggerSettings = sails.config['requestloggerfile'];
           var isProduction = process.env.NODE_ENV === 'production';
-
+          var logger = null;
           if ((isProduction && loggerSettings.inProduction === true) ||
             (!isProduction && loggerSettings.inDevelopment === true)) {
-              var logger = morgan(loggerSettings.format);
+              if(loggerSettings.logLocation == 'file') {
+                // create a write stream (in append mode)
+                var accessLogStream = fs.createWriteStream(loggerSettings.fileLocation, {flags: 'a'});
+                logger = morgan(loggerSettings.format, {stream: accessLogStream});
+              } else {
+                  logger = morgan(loggerSettings.format);
+              }
               logger(req, res, function (err) {
                 if (err) next(err)
 

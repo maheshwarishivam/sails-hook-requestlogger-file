@@ -1,7 +1,7 @@
 {
-  "name": "sails-hook-requestlogger",
-  "version": "1.0.0",
-  "description": "Sails JS hook to activate morgan request logging for every request",
+  "name": "sails-hook-requestlogger-file",
+  "version": "1.1.0",
+  "description": "Sails JS hook to activate morgan request logging for every request and logs to file system",
   "main": "index.js",
   "scripts": {
     "test": "node tests/runner",
@@ -10,23 +10,25 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/artificialio/sails-hook-requestlogger.git"
+    "url": "git://github.com/maheshwarishivam/sails-hook-requestlogger-file.git"
   },
-  "author": "Markus Padourek",
+  "author": "Shivam Maheshwari <sayhello@shivammaheshwari.com> (http://www.shivammaheshwari.com)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/artificialio/sails-hook-requestlogger/issues"
+    "url": "https://github.com/maheshwarishivam/sails-hook-requestlogger-file/issues"
   },
-  "homepage": "https://github.com/artificialio/sails-hook-requestlogger",
+  "homepage": "https://github.com/maheshwarishivam/sails-hook-requestlogger-file",
   "sails": {
     "isHook": true
   },
-   "keywords": [
-      "sails",
-      "sails.js",
-      "sails-hook",
-      "morgan"
-      ],
+  "keywords": [
+    "sails",
+    "sails.js",
+    "sails-hook",
+    "morgan",
+    "log-file",
+    "access-log"
+  ],
   "dependencies": {
     "morgan": "^1.5.0"
   },
@@ -36,8 +38,10 @@
     "sails": "~0.11.0-rc"
   },
   "contributors": [
-    {
-      "name": "Markus Padourek"
-    }
-  ]
+    "Markus Padourek",
+    "Shivam Maheshwari"
+  ],
+  "directories": {
+    "test": "tests"
+  }
 }
