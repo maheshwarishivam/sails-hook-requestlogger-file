@@ -30,7 +30,8 @@
     "access-log"
   ],
   "dependencies": {
-    "morgan": "^1.5.0"
+    "morgan": "^1.5.0",
+    "file-stream-rotator": "^0.0.6"
   },
   "devDependencies": {
     "glob": "^4.3.2",

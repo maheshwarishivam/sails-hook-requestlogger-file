@@ -1,4 +1,5 @@
 var morgan = require('morgan');
+var FileStreamRotator = require('file-stream-rotator');
 var fs = require('fs');
 
 module.exports = function(sails) {
@@ -22,7 +23,12 @@ module.exports = function(sails) {
         logLocation: 'console',
         fileLocation: 'access.log',
         inDevelopment: true,
-        inProduction: false
+        inProduction: false,
+        fileRotationOptions: {
+          filename: 'access-%DATE%.log',
+          frequency: 'daily',
+          verbose: false
+        }
       }
     },
 
@@ -42,6 +48,8 @@ module.exports = function(sails) {
                 // create a write stream (in append mode)
                 var accessLogStream = fs.createWriteStream(loggerSettings.fileLocation, {flags: 'a'});
                 logger = morgan(loggerSettings.format, {stream: accessLogStream});
+              } else if(loggerSettings.logLocation == 'rotateFile') {
+                logger = morgan(loggerSettings.format, {stream: loggerSettings.fileRotationOptions});
               } else {
                   logger = morgan(loggerSettings.format);
               }
