@@ -49,15 +49,13 @@ module.exports = function(sails) {
               logger = morgan(loggerSettings.format, {stream: accessLogStream});
             } else if(loggerSettings.logLocation == 'rotateFile') {
               loggerSettings.fileRotationOptions['filename'] = loggerSettings.fileLocation;
-              console.log(loggerSettings.fileRotationOptions);
               var rotatingLogStream = require('file-stream-rotator').getStream(loggerSettings.fileRotationOptions);
-              console.log(rotatingLogStream);
               logger = morgan(loggerSettings.format, {stream: rotatingLogStream});
             } else {
               logger = morgan(loggerSettings.format);
             }
             logger(req, res, function (err) {
-              if (err) next(err)
+              if (err) next(err);
 
               next();
             });
