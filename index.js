@@ -1,5 +1,4 @@
 var morgan = require('morgan');
-var FileStreamRotator = require('file-stream-rotator');
 var fs = require('fs');
 
 module.exports = function(sails) {
@@ -25,9 +24,9 @@ module.exports = function(sails) {
         inDevelopment: true,
         inProduction: false,
         fileRotationOptions: {
-          filename: 'access-%DATE%.log',
           frequency: 'daily',
-          verbose: false
+          verbose: false,
+          date_format: 'YYYYMMDD'
         }
       }
     },
@@ -43,21 +42,25 @@ module.exports = function(sails) {
           var isProduction = process.env.NODE_ENV === 'production';
           var logger = null;
           if ((isProduction && loggerSettings.inProduction === true) ||
-            (!isProduction && loggerSettings.inDevelopment === true)) {
-              if(loggerSettings.logLocation == 'file') {
-                // create a write stream (in append mode)
-                var accessLogStream = fs.createWriteStream(loggerSettings.fileLocation, {flags: 'a'});
-                logger = morgan(loggerSettings.format, {stream: accessLogStream});
-              } else if(loggerSettings.logLocation == 'rotateFile') {
-                logger = morgan(loggerSettings.format, {stream: loggerSettings.fileRotationOptions});
-              } else {
-                  logger = morgan(loggerSettings.format);
-              }
-              logger(req, res, function (err) {
-                if (err) next(err)
+              (!isProduction && loggerSettings.inDevelopment === true)) {
+            if(loggerSettings.logLocation == 'file') {
+              // create a write stream (in append mode)
+              var accessLogStream = fs.createWriteStream(loggerSettings.fileLocation, {flags: 'a'});
+              logger = morgan(loggerSettings.format, {stream: accessLogStream});
+            } else if(loggerSettings.logLocation == 'rotateFile') {
+              loggerSettings.fileRotationOptions['filename'] = loggerSettings.fileLocation;
+              console.log(loggerSettings.fileRotationOptions);
+              var rotatingLogStream = require('file-stream-rotator').getStream(loggerSettings.fileRotationOptions);
+              console.log(rotatingLogStream);
+              logger = morgan(loggerSettings.format, {stream: rotatingLogStream});
+            } else {
+              logger = morgan(loggerSettings.format);
+            }
+            logger(req, res, function (err) {
+              if (err) next(err)
 
-                next();
-              });
+              next();
+            });
           } else {
             next();
           }

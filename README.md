@@ -24,7 +24,7 @@ Parameter           | Type        | Details
 ------------------- | ----------- |:---------------------------------
 format              | ((string))  | Defines which logging [format](https://github.com/expressjs/morgan#predefined-formats) to use. Deaults to `dev`.
 logLocation         | ((string))  | Defines where to log: `console`, `file` or `rotateFile`. Defaults to `console`. If `rotateFile` is specified, the log file will be rotated as per `fileRotationOptions` config
-fileLocation        | ((string))  | Location of file relative to project root (if `file` is specified in `logLocation`. This has no effect if `console` is specified in `logLocation`. 
+fileLocation        | ((string))  | Location of file relative to project root (if `file` or `rotateFile` is specified in `logLocation`. This has no effect if `console` is specified in `logLocation`. 
 inDevelopment       | ((boolean)) | Whether or not to log requests in development environment.  Defaults to `true`.
 inProduction        | ((boolean)) | Whether or not to log requests in production environment  Defaults to `false`.
 fileRotationOptions | ((Object))  | A JSON Object ([details here](https://github.com/expressjs/morgan#log-file-rotation)) defining the log file rotation properties (if `rotateFile` is specified in `logLocation`. This has no effect if `console`/`file` is specified in `logLocation`.
@@ -33,8 +33,8 @@ fileRotationOptions | ((Object))  | A JSON Object ([details here](https://github
 
 Parameter           | Type        | Default Value
 ------------------- | ----------- |:---------------------------------
-filename            | ((string))  | access-%DATE%.log
 frequency           | ((string))  | daily
-verbose             | ((string))  | false 
+verbose             | ((string))  | false
+date_format         | ((string))  | YYYYMMDD
 
 That&rsquo;s it!
