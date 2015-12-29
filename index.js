@@ -38,14 +38,18 @@ module.exports = function(sails) {
         'all /*': function addRequestLogging (req, res, next) {
           // If the hook has been deactivated, just return
           //Need to define requestlogger manually, since don't have acces to this.configKey
-          var loggerSettings = sails.config['requestloggerfile'];
+          // this has been moved to init as this activity is required only once
+          // not in every call
+          //var loggerSettings = sails.config['requestloggerfile'];
           var isProduction = process.env.NODE_ENV === 'production';
           var logger = null;
           if ((isProduction && loggerSettings.inProduction === true) ||
               (!isProduction && loggerSettings.inDevelopment === true)) {
             if(loggerSettings.logLocation == 'file') {
               // create a write stream (in append mode)
-              var accessLogStream = fs.createWriteStream(loggerSettings.fileLocation, {flags: 'a'});
+              // this has been moved to init as this is causing too many file
+              // descriptors to be opened
+             // var accessLogStream = fs.createWriteStream(loggerSettings.fileLocation, {flags: 'a'});
               logger = morgan(loggerSettings.format, {stream: accessLogStream});
             } else if(loggerSettings.logLocation == 'rotateFile') {
               loggerSettings.fileRotationOptions['filename'] = loggerSettings.fileLocation;
@@ -57,8 +61,9 @@ module.exports = function(sails) {
             logger(req, res, function (err) {
               if (err) next(err);
 
-              next();
-            });
+                next();
+
+              });
           } else {
             next();
           }
@@ -71,7 +76,8 @@ module.exports = function(sails) {
      * @param  {Function} cb Callback for when we're done initializing
      */
     initialize: function(cb) {
-      // Finally
+      loggerSettings = sails.config['requestloggerfile'];
+      accessLogStream = fs.createWriteStream(loggerSettings.fileLocation, {flags: 'a'}); // Finally
       cb();
     }
 
