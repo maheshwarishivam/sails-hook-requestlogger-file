@@ -1,6 +1,6 @@
 {
   "name": "sails-hook-requestlogger-file",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "Sails JS hook to activate morgan request logging for every request and logs to file system",
   "main": "index.js",
   "scripts": {
@@ -40,7 +40,8 @@
   },
   "contributors": [
     "Markus Padourek",
-    "Shivam Maheshwari"
+    "Shivam Maheshwari",
+    "Vinod Pandey"
   ],
   "directories": {
     "test": "tests"
