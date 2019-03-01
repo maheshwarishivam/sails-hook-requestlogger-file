@@ -31,17 +31,18 @@
   ],
   "dependencies": {
     "morgan": "^1.5.0",
-    "file-stream-rotator": "^0.0.6"
+    "file-stream-rotator": "^0.4.1"
   },
   "devDependencies": {
-    "glob": "^4.3.2",
-    "mocha": "^2.1.0",
-    "sails": "~0.11.0-rc"
+    "glob": "^7.1.3",
+    "mocha": "^6.0.2",
+    "sails": "^1.1.0"
   },
   "contributors": [
     "Markus Padourek",
     "Shivam Maheshwari",
-    "Vinod Pandey"
+    "Vinod Pandey",
+    "Bharat Parmar"
   ],
   "directories": {
     "test": "tests"
