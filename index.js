@@ -56,7 +56,23 @@ module.exports = function(sails) {
               var rotatingLogStream = require('file-stream-rotator').getStream(loggerSettings.fileRotationOptions);
               logger = morgan(loggerSettings.format, {stream: rotatingLogStream});
             } else {
-              logger = morgan(loggerSettings.format);
+              if(loggerSettings.formatType === 'json'){
+                logger = morgan(function (tokens, req, res) {
+                  return JSON.stringify({
+                    date: tokens.date(req, res),
+                    identifier: req.identifier,
+                    remoteAddr: tokens['remote-addr'](req, res),
+                    method: tokens.method(req, res),
+                    url: tokens.url(req, res),
+                    status: parseInt(tokens.status(req, res),10),
+                    contentLength: tokens.res(req, res, 'content-length'),
+                    responseTime: tokens['response-time'](req, res) + `ms`,
+                    userAgent: tokens['user-agent'](req, res)
+                  });
+                });
+              }else{
+                logger = morgan(loggerSettings.format);
+              }
             }
             logger(req, res, function (err) {
               if (err) next(err);
