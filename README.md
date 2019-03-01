@@ -1,6 +1,7 @@
 # sails-hook-requestlogger-file
 
 *Note: Requires Sails.js version >=0.11.0-rc*
+***Note: Works out of the box with Sails 1.x***
 
 [Sails JS](http://sailsjs.org) hook to activate [morgan](https://github.com/expressjs/morgan) request logging for yoursails app.
 
